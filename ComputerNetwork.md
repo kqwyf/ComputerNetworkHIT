@@ -264,19 +264,7 @@ H1发送整个文件的传输延迟为(980000+20×1000)×8/100000000=80ms
 
   示例：
 
-  ```sequence
-  participant HTTP客户端
-  participant HTTP服务器
-  
-  HTTP服务器->HTTP服务器: 在端口80等待TCP连接请求
-  HTTP客户端->HTTP服务器: 发起TCP连接请求
-  HTTP服务器->HTTP客户端: 接受连接并通知客户端
-  HTTP客户端->HTTP服务器: 通过TCP套接字发出HTTP请求消息（包含URL）
-  HTTP服务器->HTTP服务器: 收到请求消息，解析，产生包含所需要对象的响应消息
-  HTTP服务器->HTTP客户端: 通过TCP套接字将响应消息发给客户端
-  HTTP服务器->HTTP客户端: 关闭TCP连接
-  HTTP客户端->HTTP客户端: 解析HTML文件，为HTML文件中链接的每个图片等对象重复以上过程进行请求
-  ```
+  ![1536245377353](ComputerNetwork.assets/1536245377353.png)
 
 - HTTP 1.1版本默认使用**持久性连接**，即每个TCP连接允许传输**多个**对象。
 
