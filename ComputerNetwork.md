@@ -289,3 +289,153 @@ RTT(Round Trip Time)：从客户端发送一个很小的数据包到服务器并
   - 有流水机制时（HTTP1.1默认），客户端只要遇到引用对象就尽快发送请求，理想情况下所有对象共耗时1个RTT。
 
     每对象总时间=RTT/对象个数+文件发送时间
+
+##### 消息格式
+
+- **请求消息**
+
+  - 使用**ASCII码**书写
+
+  - 方法：
+
+    - **GET**(HTTP 1.0/1.1)：用于请求对象。
+    - **POST**(HTTP 1.0/1.1)：在数据体中上传客户端的输入，如需填写的表格。
+    - **URL**：实际使用**GET**方法，输入信息通过URL上传。
+    - **HEAD**(HTTP 1.0/1.1)：请Server不要将所请求的对象放入响应消息中。
+    - **PUT**(HTTP 1.1)：将消息体中文件上传到URL字段指定的路径。
+    - **DELETE**(HTTP 1.1)：删除URL字段指定的文件。
+
+  - 通用格式：（第1行称为“请求行”，第2-5行可扩展，称为“头部行”）
+
+    ```
+    方法 URL 版本
+    头字段名: 值
+    头字段名: 值
+    ……
+    头字段名: 值
+    
+    数据体
+    ```
+
+  - 示例：
+
+    ```http
+    GET /somedir/page.html HTTP/1.1
+    Host: www.someschool.edu
+    User-agent: Mozilla/4.0
+    Connection: close
+    Accept-language: fr
+    (empty line)
+    (extra carriage)
+    ```
+
+- **响应消息**
+
+  - 常见响应状态代码
+
+    | 代码 | 描述                       |
+    | ---- | -------------------------- |
+    | 200  | OK                         |
+    | 301  | Moved Permanently          |
+    | 400  | Bad Request                |
+    | 404  | Not Found                  |
+    | 505  | HTTP Version Not Supported |
+
+  - 通用格式：（第1行称为“状态行”，第2-5行可扩展，称为“头部行”）
+
+    ```
+    版本 状态码 状态描述
+    头字段名: 值
+    头字段名: 值
+    ……
+    头字段名: 值
+    
+    数据体
+    ```
+
+  - 示例：
+
+    ```http
+    HTTP/1.1 200 OK
+    Connection: close
+    Date: Thu, 06 Aug 1998 12:00:15 GMT
+    Server: Apache/1.3.0 (Unix)
+    Last-Modified: Mon, 22 Jun 1998 ......
+    Content-Length: 6821
+    Contnt-Type: text/html
+    (empty line)
+    (data)
+    ```
+
+#### Cookie
+
+定义：某些网站为了**辨别用户身份**、**进行会话跟踪**而储存在用户**本地终端**上的数据（通常**经过加密**）。
+
+组件：
+
+- HTTP响应消息的cookie头部行
+- HTTP请求消息的cookie头部行
+- 保存在客户端主机上的cookie文件，由浏览器管理
+- Web服务器端的后台数据库
+
+作用：身份认证、购物车、推荐、Web email等
+
+#### Web缓存/代理服务器
+
+功能：在**不访问服务器**的前提下满足客户端的HTTP请求。
+
+作用：
+
+- 缩短客户请求的响应时间
+- 减少机构/组织的流量
+- 实现大范围内有效的内容分发
+
+##### 缓存内容与远端不一致问题
+
+**条件性GET**方法：代理服务器在HTTP请求中声明**持有版本的修改日期**，若在修改日期后有新版本，则服务器返回**200 OK**及**新版本对象**，否则返回**304 Not Modified**。
+
+### Email应用
+
+#### 组件
+
+- **邮件客户端**：读写Email消息，与服务器交互收发Email消息。
+- **邮件服务器**：维护**邮箱**（存储发送给该用户的Email）和**消息队列**（存储等待发送的Email）。
+- **SMTP**（Simple Mail Transfer Protocol）：用于邮件服务器之间传递消息。客户端为发送消息的服务器；服务器为接收消息的服务器。
+
+#### SMTP协议
+
+- 传输服务：**TCP**
+
+- 端口：**25**
+
+- 阶段：**握手**；**消息传输**；**关闭**。
+
+- 消息格式
+
+  Email消息仅能包含**7位ASCII码**。使用`CRLF.CRLF`确定消息结束。
+
+  - **命令**消息：ASCII文本
+  - **响应**消息：状态代码和语句
+
+- 交互示例：
+
+  ```
+  Server: 220 hamburger.edu
+  Client: HELO crepes.fr
+  Server: 250  Hello crepes.fr, pleased to meet you
+  (Connection opened)
+  Client: MAIL FROM: <alice@crepes.fr>
+  Server: 250 alice@crepes.fr ... Sender ok
+  Client: RCPT TO: <bob@hamburger.edu>
+  Server: 250 bob@hamburger.edu ... Recipient ok
+  Client: DATA
+  Server: 354 Enter mail, end with "." on a line by itself
+  Client: Do you like ketchup?
+  Client: How about pickles?
+  Client: .
+  Server: 250 Message accepted for delivery
+  Client: QUIT
+  Server: 221 hamburger.edu closing connection
+  (Connection closed)
+  ```
+
