@@ -362,7 +362,7 @@ RTT(Round Trip Time)：从客户端发送一个很小的数据包到服务器并
     Server: Apache/1.3.0 (Unix)
     Last-Modified: Mon, 22 Jun 1998 ......
     Content-Length: 6821
-    Contnt-Type: text/html
+    Content-Type: text/html
     (empty line)
     (data)
     ```
