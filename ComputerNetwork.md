@@ -590,7 +590,7 @@ DNS记录称为**资源记录**。格式为`(name, value, type, ttl)`。`type`�
 - CNAME（别名服务）
   - Name：某真实域名的**别名**
   - Value：真实域名
-- MX（邮件服务）
+- MX（邮件服务器别名服务）
   - Name：域名
   - Value：与Name对应的邮件服务器
 
