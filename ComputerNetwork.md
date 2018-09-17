@@ -796,7 +796,7 @@ Berkeley Unix中套接字称为**socket**；Windows中**套接字接口与前者
 
   - 参数2指明连接请求队列大小。
 
-- connect：**客户端**使套接字与特定计算机的特定端口的套接字进行连接。（仅**客户端**可用）
+- connect：使套接字与特定计算机的特定端口的套接字进行连接。（仅**客户端**可用）
 
   - 原型：
 
@@ -844,7 +844,7 @@ Berkeley Unix中套接字称为**socket**；Windows中**套接字接口与前者
 
   - 注意事项：`recv`函数用于从TCP套接字或调用了`connect`函数的UDP客户端套接字接收数据；`recvfrom`函数用于从UDP服务器端套接字或未调用`connect`函数的UDP客户端套接字接收数据。
 
-- setsockopt, getsockopt：设置/获取套接字段选项参数。（略）
+- setsockopt, getsockopt：设置/获取套接字的选项参数。（略）
 
 - htons, ntohs, htonl, ntohl：本地字节顺序/网络字节顺序转换。（略）
 
