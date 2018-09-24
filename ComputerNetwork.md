@@ -583,8 +583,8 @@ DNS记录称为**资源记录**。格式为`(name, value, type, ttl)`。`type`�
 - A（主机域名解析服务）
   - Name：主机域名
   - Value：IP地址
-- NS（域解析服务）
-  - Name：域（如`edu.cn`）
+- NS（域名服务器解析服务）
+  - Name：域名（如`hit.edu.cn`）
   - Value：该域**权威域名服务器**的主机**域名**。
 
 - CNAME（别名服务）
